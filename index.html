@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>高知観光 行く前3分診断</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app">
-    <h1>高知観光<br>行く前3分診断</h1>
 
-    <div id="question-area">
-      <p id="question"></p>
-      <div id="choices"></div>
-    </div>
+<div class="app">
+  <header>高知観光 行く前3分診断</header>
 
-    <div id="result-area" class="hidden">
-      <h2>あなたにおすすめの高知</h2>
-      <p id="result-title"></p>
+  <!-- Q1 -->
+  <div class="screen active" id="q1">
+    <div class="question">Q1. 今回の旅行の目的は？</div>
+    <button class="btn" data-type="nature">自然・癒し</button>
+    <button class="btn" data-type="food">グルメ</button>
+    <button class="btn" data-type="history">歴史・観光</button>
+  </div>
+
+  <!-- Q2 -->
+  <div class="screen" id="q2">
+    <div class="question">Q2. どんな過ごし方が好き？</div>
+    <button class="btn" data-type="nature">のんびり</button>
+    <button class="btn" data-type="food">食べ歩き</button>
+    <button class="btn" data-type="history">名所巡り</button>
+  </div>
+
+  <!-- Q3 -->
+  <div class="screen" id="q3">
+    <div class="question">Q3. 写真はたくさん撮りたい？</div>
+    <button class="btn" data-type="nature">絶景を撮りたい</button>
+    <button class="btn" data-type="food">グルメ中心</button>
+    <button class="btn" data-type="history">記念写真派</button>
+  </div>
+
+  <!-- Result -->
+  <div class="screen result" id="result">
+    <div class="result-overlay">
+      <h2 id="result-title"></h2>
       <p id="result-text"></p>
-      <button onclick="restart()">もう一度診断する</button>
+      <button class="btn retry-btn" id="retry">もう一度診断</button>
     </div>
-  </main>
+  </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
