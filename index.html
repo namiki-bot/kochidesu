@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>高知観光 行く前3分診断</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>高知観光<br>行く前3分診断</h1>
+
+    <div id="question-area">
+      <p id="question"></p>
+      <div id="choices"></div>
+    </div>
+
+    <div id="result-area" class="hidden">
+      <h2>あなたにおすすめの高知</h2>
+      <p id="result-title"></p>
+      <p id="result-text"></p>
+      <button onclick="restart()">もう一度診断する</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
