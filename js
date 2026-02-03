@@ -1,96 +1,70 @@
-const questions = [
-  {
-    text: "旅行の目的は？",
-    choices: [
-      { text: "自然に癒されたい", type: "nature" },
-      { text: "グルメを楽しみたい", type: "food" },
-      { text: "歴史・文化を感じたい", type: "history" }
-    ]
-  },
-  {
-    text: "どんな場所が好き？",
-    choices: [
-      { text: "海や川", type: "nature" },
-      { text: "にぎやかな場所", type: "food" },
-      { text: "落ち着いた街並み", type: "history" }
-    ]
-  },
-  {
-    text: "旅行中はどちら派？",
-    choices: [
-      { text: "写真をたくさん撮りたい", type: "nature" },
-      { text: "食べ歩きしたい", type: "food" },
-      { text: "じっくり観光したい", type: "history" }
-    ]
-  }
-];
+let step = 1;
 
-const results = {
-  nature: {
-    title: "仁淀ブルー・四万十川",
-    text: "高知の大自然を満喫！透明度抜群の川と絶景スポットがおすすめです。"
-  },
-  food: {
-    title: "ひろめ市場・高知市街",
-    text: "カツオのたたきは外せない！高知グルメを思いきり楽しみましょう。"
-  },
-  history: {
-    title: "桂浜・坂本龍馬記念館",
-    text: "高知の歴史と文化に触れる旅。ゆったり観光したい人向けです。"
-  }
+let scores = {
+  nature: 0,
+  food: 0,
+  history: 0
 };
 
-let currentQuestion = 0;
-let scores = { nature: 0, food: 0, history: 0 };
+const buttons = document.querySelectorAll(".btn[data-type]");
+const retryBtn = document.getElementById("retry");
 
-const questionEl = document.getElementById("question");
-const choicesEl = document.getElementById("choices");
-const resultArea = document.getElementById("result-area");
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const type = btn.dataset.type;
+    scores[type]++;
 
-function showQuestion() {
-  const q = questions[currentQuestion];
-  questionEl.textContent = q.text;
-  choicesEl.innerHTML = "";
+    document.getElementById("q" + step).classList.remove("active");
+    step++;
 
-  q.choices.forEach(choice => {
-    const btn = document.createElement("button");
-    btn.textContent = choice.text;
-    btn.onclick = () => selectChoice(choice.type);
-    choicesEl.appendChild(btn);
+    if (step <= 3) {
+      document.getElementById("q" + step).classList.add("active");
+    } else {
+      showResult();
+    }
   });
-}
+});
 
-function selectChoice(type) {
-  scores[type]++;
-  currentQuestion++;
-
-  if (currentQuestion < questions.length) {
-    showQuestion();
-  } else {
-    showResult();
-  }
-}
+retryBtn.addEventListener("click", restart);
 
 function showResult() {
-  document.getElementById("question-area").classList.add("hidden");
-  resultArea.classList.remove("hidden");
+  let resultType = "nature";
 
-  const topType = Object.keys(scores).reduce((a, b) =>
-    scores[a] > scores[b] ? a : b
-  );
+  if (scores.food > scores[resultType]) resultType = "food";
+  if (scores.history > scores[resultType]) resultType = "history";
 
-  document.getElementById("result-title").textContent =
-    results[topType].title;
-  document.getElementById("result-text").textContent =
-    results[topType].text;
+  const resultScreen = document.getElementById("result");
+  const title = document.getElementById("result-title");
+  const text = document.getElementById("result-text");
+
+  if (resultType === "nature") {
+    resultScreen.style.backgroundImage =
+      "url('https://kochi-tabi.jp/img/spot_7439/1400_1762736624252.jpg')";
+    title.textContent = "あなたにおすすめ：仁淀ブルー・四万十川";
+    text.textContent = "日本屈指の透明度！癒しと絶景で心もリフレッシュ。";
+  }
+
+  if (resultType === "food") {
+    resultScreen.style.backgroundImage =
+      "url('https://kochi-tabi.jp/img/spot_2250/1400_1763533616116.jpeg')";
+    title.textContent = "あなたにおすすめ：ひろめ市場・カツオ";
+    text.textContent = "高知グルメの聖地！カツオのたたきは必食。";
+  }
+
+  if (resultType === "history") {
+    resultScreen.style.backgroundImage =
+      "url('https://kochi-tabi.jp/img/spot_702/1400_1762738043765.jpeg')";
+    title.textContent = "あなたにおすすめ：桂浜・坂本龍馬";
+    text.textContent = "龍馬像と桂浜の景色で高知の歴史を感じよう。";
+  }
+
+  resultScreen.classList.add("active");
 }
 
 function restart() {
-  currentQuestion = 0;
+  step = 1;
   scores = { nature: 0, food: 0, history: 0 };
-  resultArea.classList.add("hidden");
-  document.getElementById("question-area").classList.remove("hidden");
-  showQuestion();
-}
 
-showQuestion();
+  document.getElementById("result").classList.remove("active");
+  document.getElementById("q1").classList.add("active");
+}
